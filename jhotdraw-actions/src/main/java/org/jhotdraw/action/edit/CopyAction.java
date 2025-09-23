@@ -56,7 +56,7 @@ public class CopyAction extends AbstractSelectionAction {
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        JComponent c = target;//test
+        JComponent c = target;
         if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
                 getPermanentFocusOwner() instanceof JComponent)) {
             c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
