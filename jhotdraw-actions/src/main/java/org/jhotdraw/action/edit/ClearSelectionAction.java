@@ -72,23 +72,38 @@ public class ClearSelectionAction extends AbstractSelectionAction {
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        JComponent c = target;
-        if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                getPermanentFocusOwner() instanceof JComponent)) {
-            c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                    getPermanentFocusOwner();
-        }
-        if (c != null && c.isEnabled()) {
-            if (c instanceof EditableComponent) {
-                ((EditableComponent) c).clearSelection();
-            } else if (c instanceof JTextComponent) {
-                JTextComponent tc = ((JTextComponent) c);
-                tc.select(tc.getSelectionStart(), tc.getSelectionStart());
-            } else {
-                c.getToolkit().beep();
-            }
+        JComponent currentTarget = findTargetComponent();
+
+        if (currentTarget != null && currentTarget.isEnabled()) {
+            performAction(currentTarget);
         }
     }
+
+    private JComponent findTargetComponent() {
+        JComponent currentTarget = target;
+        Component permanentFocusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                getPermanentFocusOwner();
+
+        if (currentTarget == null && (permanentFocusOwner instanceof JComponent)) {
+            currentTarget = (JComponent) permanentFocusOwner;
+        }
+
+        return currentTarget;
+    }
+
+    private void performAction(JComponent currentTarget) {
+        if (currentTarget instanceof EditableComponent) {
+            ((EditableComponent) currentTarget).clearSelection();
+        }
+        else if (currentTarget instanceof JTextComponent) {
+            JTextComponent text = ((JTextComponent) currentTarget);
+            text.select(text.getSelectionStart(), text.getSelectionStart());
+        }
+        else {
+            currentTarget.getToolkit().beep();
+        }
+    }
+
 
     @Override
     protected void updateEnabled() {
