@@ -72,20 +72,35 @@ public class SelectAllAction extends AbstractSelectionAction {
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        JComponent c = target;
-        if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                getPermanentFocusOwner() instanceof JComponent)) {
-            c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                    getPermanentFocusOwner();
+        JComponent currentComponent = findTargetComponent();
+
+        if (currentComponent != null && currentComponent.isEnabled()) {
+            performAction(currentComponent);
         }
-        if (c != null && c.isEnabled()) {
-            if (c instanceof EditableComponent) {
-                ((EditableComponent) c).selectAll();
-            } else if (c instanceof JTextComponent) {
-                ((JTextComponent) c).selectAll();
-            } else {
-                c.getToolkit().beep();
-            }
+    }
+
+    private JComponent findTargetComponent() {
+        JComponent currentTarget = target;
+        Component permanentFocusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                getPermanentFocusOwner();
+
+        if (currentTarget == null && (permanentFocusOwner instanceof JComponent)) {
+            currentTarget = (JComponent) permanentFocusOwner;
+        }
+
+        return currentTarget;
+    }
+
+    private void performAction(JComponent currentTarget) {
+        if (currentTarget instanceof EditableComponent) {
+            ((EditableComponent) currentTarget).clearSelection();
+        }
+        else if (currentTarget instanceof JTextComponent) {
+            JTextComponent text = ((JTextComponent) currentTarget);
+            text.select(text.getSelectionStart(), text.getSelectionStart());
+        }
+        else {
+            currentTarget.getToolkit().beep();
         }
     }
 
