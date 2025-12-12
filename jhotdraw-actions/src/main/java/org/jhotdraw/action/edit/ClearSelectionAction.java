@@ -73,12 +73,10 @@ public class ClearSelectionAction extends AbstractSelectionAction {
 
     @Override
     protected void performAction(JComponent currentTarget) {
-        if (currentTarget instanceof EditableComponent) {
-            ((EditableComponent) currentTarget).clearSelection();
-        }
-        else if (currentTarget instanceof JTextComponent) {
-            JTextComponent text = ((JTextComponent) currentTarget);
-            text.select(text.getSelectionStart(), text.getSelectionStart());
+        SelectionTarget adapter = SelectionTargetFactory.create(currentTarget);
+
+        if (adapter != null) {
+            adapter.clearSelection();
         }
         else {
             currentTarget.getToolkit().beep();

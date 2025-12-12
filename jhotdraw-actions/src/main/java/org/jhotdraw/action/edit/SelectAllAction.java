@@ -72,11 +72,10 @@ public class SelectAllAction extends AbstractSelectionAction {
 
     @Override
     protected void performAction(JComponent currentTarget) {
-        if (currentTarget instanceof EditableComponent) {
-            ((EditableComponent) currentTarget).selectAll();
-        }
-        else if (currentTarget instanceof JTextComponent) {
-            ((JTextComponent) currentTarget).selectAll();
+        SelectionTarget adapter = SelectionTargetFactory.create(currentTarget);
+
+        if (adapter != null) {
+            adapter.selectAll();
         }
         else {
             currentTarget.getToolkit().beep();
