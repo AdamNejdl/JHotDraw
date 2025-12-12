@@ -64,6 +64,7 @@ public class ClearSelectionAction extends AbstractSelectionAction {
      * @param target The target of the action. Specify null for the currently
      * focused component.
      */
+
     public ClearSelectionAction(JComponent target) {
         super(target);
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.action.Labels");
@@ -71,27 +72,7 @@ public class ClearSelectionAction extends AbstractSelectionAction {
     }
 
     @Override
-    public void actionPerformed(ActionEvent evt) {
-        JComponent currentTarget = findTargetComponent();
-
-        if (currentTarget != null && currentTarget.isEnabled()) {
-            performAction(currentTarget);
-        }
-    }
-
-    private JComponent findTargetComponent() {
-        JComponent currentTarget = target;
-        Component permanentFocusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                getPermanentFocusOwner();
-
-        if (currentTarget == null && (permanentFocusOwner instanceof JComponent)) {
-            currentTarget = (JComponent) permanentFocusOwner;
-        }
-
-        return currentTarget;
-    }
-
-    private void performAction(JComponent currentTarget) {
+    protected void performAction(JComponent currentTarget) {
         if (currentTarget instanceof EditableComponent) {
             ((EditableComponent) currentTarget).clearSelection();
         }

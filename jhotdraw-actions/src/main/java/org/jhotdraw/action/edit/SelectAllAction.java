@@ -71,27 +71,7 @@ public class SelectAllAction extends AbstractSelectionAction {
     }
 
     @Override
-    public void actionPerformed(ActionEvent evt) {
-        JComponent currentTarget = findTargetComponent();
-
-        if (currentTarget != null && currentTarget.isEnabled()) {
-            performAction(currentTarget);
-        }
-    }
-
-    private JComponent findTargetComponent() {
-        JComponent currentTarget = target;
-        Component permanentFocusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                getPermanentFocusOwner();
-
-        if (currentTarget == null && (permanentFocusOwner instanceof JComponent)) {
-            currentTarget = (JComponent) permanentFocusOwner;
-        }
-
-        return currentTarget;
-    }
-
-    private void performAction(JComponent currentTarget) {
+    protected void performAction(JComponent currentTarget) {
         if (currentTarget instanceof EditableComponent) {
             ((EditableComponent) currentTarget).selectAll();
         }

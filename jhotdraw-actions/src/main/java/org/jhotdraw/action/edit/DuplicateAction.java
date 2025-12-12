@@ -70,19 +70,11 @@ public class DuplicateAction extends AbstractSelectionAction {
     }
 
     @Override
-    public void actionPerformed(ActionEvent evt) {
-        JComponent c = target;
-        if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                getPermanentFocusOwner() instanceof JComponent)) {
-            c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                    getPermanentFocusOwner();
-        }
-        if (c != null && c.isEnabled()) {
-            if (c instanceof EditableComponent) {
-                ((EditableComponent) c).duplicate();
-            } else {
-                c.getToolkit().beep();
-            }
+    protected void performAction(JComponent currentTarget) {
+        if (currentTarget instanceof EditableComponent) {
+            ((EditableComponent) currentTarget).duplicate();
+        } else {
+            currentTarget.getToolkit().beep();
         }
     }
 }
