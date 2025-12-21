@@ -7,10 +7,7 @@
  */
 package org.jhotdraw.action.edit;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.text.*;
 import org.jhotdraw.api.gui.EditableComponent;
 import org.jhotdraw.util.*;
 
