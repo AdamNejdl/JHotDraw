@@ -1,0 +1,108 @@
+{
+  "className": "org.jhotdraw.bdd.SelectionFeatureTest",
+  "name": "Selection Feature",
+  "scenarios": [
+    {
+      "className": "org.jhotdraw.bdd.SelectionFeatureTest",
+      "testMethodName": "selecting_figures_of_the_same_type",
+      "description": "selecting figures of the same type",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "a drawing with two rectangles and an ellipse",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a drawing with two rectangles and an ellipse"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 219499600,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "a rectangle is selected",
+              "words": [
+                {
+                  "value": "and",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a rectangle is selected"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1126300,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "the user selects Select Same",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the user selects Select Same"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 2043000,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "two rectangles are selected",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "two rectangles are selected"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 60877700,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "the ellipse is NOT selected",
+              "words": [
+                {
+                  "value": "and",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the ellipse is NOT selected"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 616900,
+              "depth": 0,
+              "parentFailed": false
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "durationInNanos": 307042300
+        }
+      ],
+      "casesAsTable": false,
+      "durationInNanos": 307042300
+    }
+  ],
+  "tagMap": {}
+}
