@@ -4,6 +4,160 @@
   "scenarios": [
     {
       "className": "org.jhotdraw.bdd.SelectionFeatureTest",
+      "testMethodName": "selecting_all_figures",
+      "description": "selecting all figures",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "a drawing with two rectangles and an ellipse",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a drawing with two rectangles and an ellipse"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 212434700,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "the user selects Select All",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the user selects Select All"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 2151800,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "all figures are selected",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "all figures are selected"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 61340800,
+              "depth": 0,
+              "parentFailed": false
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "durationInNanos": 290008100
+        }
+      ],
+      "casesAsTable": false,
+      "durationInNanos": 290008100
+    },
+    {
+      "className": "org.jhotdraw.bdd.SelectionFeatureTest",
+      "testMethodName": "clearing_the_selection",
+      "description": "clearing the selection",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "a drawing with two rectangles and an ellipse",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a drawing with two rectangles and an ellipse"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 3686700,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "some figures are selected",
+              "words": [
+                {
+                  "value": "and",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "some figures are selected"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 358500,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "the user selects Clear Selection",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the user selects Clear Selection"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1245500,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "no figures are selected",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "no figures are selected"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 240100,
+              "depth": 0,
+              "parentFailed": false
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "durationInNanos": 16326800
+        }
+      ],
+      "casesAsTable": false,
+      "durationInNanos": 16326800
+    },
+    {
+      "className": "org.jhotdraw.bdd.SelectionFeatureTest",
       "testMethodName": "selecting_figures_of_the_same_type",
       "description": "selecting figures of the same type",
       "tagIds": [],
@@ -25,7 +179,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 219499600,
+              "durationInNanos": 3510800,
               "depth": 0,
               "parentFailed": false
             },
@@ -41,7 +195,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 1126300,
+              "durationInNanos": 856600,
               "depth": 0,
               "parentFailed": false
             },
@@ -57,7 +211,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 2043000,
+              "durationInNanos": 2212900,
               "depth": 0,
               "parentFailed": false
             },
@@ -73,7 +227,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 60877700,
+              "durationInNanos": 1421000,
               "depth": 0,
               "parentFailed": false
             },
@@ -89,7 +243,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 616900,
+              "durationInNanos": 605600,
               "depth": 0,
               "parentFailed": false
             }
@@ -97,11 +251,11 @@
           "explicitArguments": [],
           "derivedArguments": [],
           "status": "SUCCESS",
-          "durationInNanos": 307042300
+          "durationInNanos": 9373500
         }
       ],
       "casesAsTable": false,
-      "durationInNanos": 307042300
+      "durationInNanos": 9373500
     }
   ],
   "tagMap": {}

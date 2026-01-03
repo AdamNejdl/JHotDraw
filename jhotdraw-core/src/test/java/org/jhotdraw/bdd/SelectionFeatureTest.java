@@ -17,4 +17,23 @@ public class SelectionFeatureTest extends ScenarioTest<GivenFigures, WhenSelecti
         then().two_rectangles_are_selected()
                 .and().the_ellipse_is_NOT_selected();
     }
+
+    @Test
+    public void selecting_all_figures() {
+        given().a_drawing_with_two_rectangles_and_an_ellipse();
+
+        when().the_user_selects_Select_All();
+
+        then().all_figures_are_selected();
+    }
+
+    @Test
+    public void clearing_the_selection() {
+        given().a_drawing_with_two_rectangles_and_an_ellipse()
+                .and().some_figures_are_selected();
+
+        when().the_user_selects_Clear_Selection();
+
+        then().no_figures_are_selected();
+    }
 }

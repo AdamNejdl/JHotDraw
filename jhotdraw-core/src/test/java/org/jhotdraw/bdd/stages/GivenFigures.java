@@ -39,4 +39,11 @@ public class GivenFigures extends Stage<GivenFigures> {
         view.addToSelection(rect);
         return self();
     }
+
+    public GivenFigures some_figures_are_selected() {
+        if (drawing.getChildCount() > 0) {
+            view.addToSelection(drawing.getChildren().get(0));
+        }
+        return self();
+    }
 }
