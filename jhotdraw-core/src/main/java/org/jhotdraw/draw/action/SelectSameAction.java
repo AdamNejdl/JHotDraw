@@ -35,17 +35,13 @@ public class SelectSameAction extends AbstractSelectedAction {
 
     @Override
     public void actionPerformed(java.awt.event.ActionEvent e) {
-        selectSame();
-    }
-
-    public void selectSame() {
         HashSet<Class<?>> selectedClasses = new HashSet<>();
         for (Figure selected : getView().getSelectedFigures()) {
             selectedClasses.add(selected.getClass());
         }
-        for (Figure f : getDrawing().getChildren()) {
-            if (selectedClasses.contains(f.getClass())) {
-                getView().addToSelection(f);
+        for (Figure drawingFigure : getDrawing().getChildren()) {
+            if (selectedClasses.contains(drawingFigure.getClass())) {
+                getView().addToSelection(drawingFigure);
             }
         }
     }

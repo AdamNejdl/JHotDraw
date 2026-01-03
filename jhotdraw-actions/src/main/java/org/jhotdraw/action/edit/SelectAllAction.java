@@ -7,10 +7,7 @@
  */
 package org.jhotdraw.action.edit;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.text.*;
 import org.jhotdraw.api.gui.EditableComponent;
 import org.jhotdraw.util.*;
 
@@ -71,33 +68,11 @@ public class SelectAllAction extends AbstractSelectionAction {
     }
 
     @Override
-    public void actionPerformed(ActionEvent evt) {
-        JComponent currentComponent = findTargetComponent();
+    protected void performAction(JComponent currentTarget) {
+        SelectionTarget adapter = SelectionTargetFactory.create(currentTarget);
 
-        if (currentComponent != null && currentComponent.isEnabled()) {
-            performAction(currentComponent);
-        }
-    }
-
-    private JComponent findTargetComponent() {
-        JComponent currentTarget = target;
-        Component permanentFocusOwner = KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                getPermanentFocusOwner();
-
-        if (currentTarget == null && (permanentFocusOwner instanceof JComponent)) {
-            currentTarget = (JComponent) permanentFocusOwner;
-        }
-
-        return currentTarget;
-    }
-
-    private void performAction(JComponent currentTarget) {
-        if (currentTarget instanceof EditableComponent) {
-            ((EditableComponent) currentTarget).clearSelection();
-        }
-        else if (currentTarget instanceof JTextComponent) {
-            JTextComponent text = ((JTextComponent) currentTarget);
-            text.select(text.getSelectionStart(), text.getSelectionStart());
+        if (adapter != null) {
+            adapter.selectAll();
         }
         else {
             currentTarget.getToolkit().beep();

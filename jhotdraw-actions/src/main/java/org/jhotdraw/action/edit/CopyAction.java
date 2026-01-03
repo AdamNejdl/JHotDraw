@@ -54,20 +54,18 @@ public class CopyAction extends AbstractSelectionAction {
         labels.configureAction(this, ID);
     }
 
+
     @Override
-    public void actionPerformed(ActionEvent evt) {
-        JComponent c = target;
-        if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                getPermanentFocusOwner() instanceof JComponent)) {
-            c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                    getPermanentFocusOwner();
-        }
-        // Note: copying is allowed for disabled components
-        if (c != null) {
-            c.getTransferHandler().exportToClipboard(
-                    c,
-                    ClipboardUtil.getClipboard(),
-                    TransferHandler.COPY);
-        }
+    protected void performAction(JComponent currentTarget) {
+        currentTarget.getTransferHandler().exportToClipboard(
+                currentTarget,
+                ClipboardUtil.getClipboard(),
+                TransferHandler.COPY);
+    }
+
+    // Note: copying is allowed for disabled components
+    @Override
+    protected boolean isValidTarget(JComponent currentTarget) {
+        return currentTarget != null;
     }
 }
