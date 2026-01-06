@@ -48,6 +48,30 @@ public void testRectangleHasMinimumSize() {
     assertTrue(bounds.getWidth() >= 5);
     assertTrue(bounds.getHeight() >= 5);
 }
+@Test
+public void testRectangleBoundsWithReversedPoints() {
+    RectangleFigure rectangle = new RectangleFigure();
+
+    Point2D.Double start = new Point2D.Double(100, 100);
+    Point2D.Double end   = new Point2D.Double(20, 30);
+
+    rectangle.setBounds(start, end);
+
+    Rectangle2D.Double bounds = rectangle.getBounds();
+
+    assertEquals(bounds.getX(), 20.0, 0.001);
+    assertEquals(bounds.getY(), 30.0, 0.001);
+    assertTrue(bounds.getWidth() >= 5);
+    assertTrue(bounds.getHeight() >= 5);
+}
+@Test
+public void testRectangleContainsPoint() {
+    RectangleFigure rectangle = new RectangleFigure();
+    rectangle.setBounds(new Point2D.Double(10,10), new Point2D.Double(50,50));
+
+    assertTrue(rectangle.contains(new Point2D.Double(20,20)));
+    assertFalse(rectangle.contains(new Point2D.Double(200,200)));
+}
 
 
 }
