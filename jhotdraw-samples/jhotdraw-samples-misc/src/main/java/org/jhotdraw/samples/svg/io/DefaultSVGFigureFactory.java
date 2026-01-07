@@ -58,9 +58,9 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     }
 
     @Override
-    public Figure createTriangle(double x, double y, double w, double h,
+    public Figure createTriangle(double x, double y, double width, double height,
                                  Map<AttributeKey<?>, Object> a) {
-        TriangleFigure figure = new TriangleFigure(x, y, w, h);
+        TriangleFigure figure = new TriangleFigure(x, y, width, height);
         figure.setAttributes(a);
         return figure;
     }

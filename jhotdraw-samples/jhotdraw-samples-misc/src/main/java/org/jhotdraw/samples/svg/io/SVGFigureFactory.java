@@ -39,7 +39,7 @@ public interface SVGFigureFactory {
             double cx, double cy, double r,
             Map<AttributeKey<?>, Object> attributes);
 
-    Figure createTriangle(double x, double y, double w, double h,
+    Figure createTriangle(double x, double y, double width, double height,
                           Map<AttributeKey<?>, Object> a);
 
     public Figure createEllipse(
