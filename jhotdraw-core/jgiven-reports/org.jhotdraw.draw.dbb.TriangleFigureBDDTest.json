@@ -4,8 +4,8 @@
   "scenarios": [
     {
       "className": "org.jhotdraw.draw.dbb.TriangleFigureBDDTest",
-      "testMethodName": "a_triangle_can_be_moved_correctly",
-      "description": "a triangle can be moved correctly",
+      "testMethodName": "a_triangle_can_be_resized",
+      "description": "a triangle can be resized",
       "tagIds": [],
       "explicitParameters": [],
       "derivedParameters": [],
@@ -41,20 +41,296 @@
                 {
                   "value": "50.0",
                   "argumentInfo": {
-                    "argumentName": "w",
+                    "argumentName": "width",
                     "formattedValue": "50.0"
                   }
                 },
                 {
                   "value": "50.0",
                   "argumentInfo": {
-                    "argumentName": "h",
+                    "argumentName": "height",
                     "formattedValue": "50.0"
                   }
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 58667100
+              "durationInNanos": 76465600
+            },
+            {
+              "name": "i resize the triangle to",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "i resize the triangle to"
+                },
+                {
+                  "value": "0.0",
+                  "argumentInfo": {
+                    "argumentName": "x",
+                    "formattedValue": "0.0"
+                  }
+                },
+                {
+                  "value": "0.0",
+                  "argumentInfo": {
+                    "argumentName": "y",
+                    "formattedValue": "0.0"
+                  }
+                },
+                {
+                  "value": "100.0",
+                  "argumentInfo": {
+                    "argumentName": "width",
+                    "formattedValue": "100.0"
+                  }
+                },
+                {
+                  "value": "100.0",
+                  "argumentInfo": {
+                    "argumentName": "height",
+                    "formattedValue": "100.0"
+                  }
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1510500
+            },
+            {
+              "name": "the width should be",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the width should be"
+                },
+                {
+                  "value": "100.0",
+                  "argumentInfo": {
+                    "argumentName": "width",
+                    "formattedValue": "100.0"
+                  }
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 20666100
+            },
+            {
+              "name": "the height should be",
+              "words": [
+                {
+                  "value": "and",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the height should be"
+                },
+                {
+                  "value": "100.0",
+                  "argumentInfo": {
+                    "argumentName": "height",
+                    "formattedValue": "100.0"
+                  }
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1443800
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "success": true,
+          "durationInNanos": 213412600
+        }
+      ],
+      "durationInNanos": 213412600,
+      "executionStatus": "SUCCESS"
+    },
+    {
+      "className": "org.jhotdraw.draw.dbb.TriangleFigureBDDTest",
+      "testMethodName": "a_triangle_detects_points_inside_it",
+      "description": "a triangle detects points inside it",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "casesAsTable": false,
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "a triangle at coordinates",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a triangle at coordinates"
+                },
+                {
+                  "value": "0.0",
+                  "argumentInfo": {
+                    "argumentName": "x",
+                    "formattedValue": "0.0"
+                  }
+                },
+                {
+                  "value": "0.0",
+                  "argumentInfo": {
+                    "argumentName": "y",
+                    "formattedValue": "0.0"
+                  }
+                },
+                {
+                  "value": "50.0",
+                  "argumentInfo": {
+                    "argumentName": "width",
+                    "formattedValue": "50.0"
+                  }
+                },
+                {
+                  "value": "50.0",
+                  "argumentInfo": {
+                    "argumentName": "height",
+                    "formattedValue": "50.0"
+                  }
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1364100
+            },
+            {
+              "name": "the point $ $ should be inside",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the point"
+                },
+                {
+                  "value": "25.0",
+                  "argumentInfo": {
+                    "argumentName": "x",
+                    "formattedValue": "25.0"
+                  }
+                },
+                {
+                  "value": "25.0",
+                  "argumentInfo": {
+                    "argumentName": "y",
+                    "formattedValue": "25.0"
+                  }
+                },
+                {
+                  "value": "should be inside"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 38400
+            },
+            {
+              "name": "the point $ $ should be outside",
+              "words": [
+                {
+                  "value": "and",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the point"
+                },
+                {
+                  "value": "60.0",
+                  "argumentInfo": {
+                    "argumentName": "x",
+                    "formattedValue": "60.0"
+                  }
+                },
+                {
+                  "value": "60.0",
+                  "argumentInfo": {
+                    "argumentName": "y",
+                    "formattedValue": "60.0"
+                  }
+                },
+                {
+                  "value": "should be outside"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1172100
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "success": true,
+          "durationInNanos": 16601000
+        }
+      ],
+      "durationInNanos": 16601000,
+      "executionStatus": "SUCCESS"
+    },
+    {
+      "className": "org.jhotdraw.draw.dbb.TriangleFigureBDDTest",
+      "testMethodName": "a_triangle_can_be_moved",
+      "description": "a triangle can be moved",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "casesAsTable": false,
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "a triangle at coordinates",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a triangle at coordinates"
+                },
+                {
+                  "value": "0.0",
+                  "argumentInfo": {
+                    "argumentName": "x",
+                    "formattedValue": "0.0"
+                  }
+                },
+                {
+                  "value": "0.0",
+                  "argumentInfo": {
+                    "argumentName": "y",
+                    "formattedValue": "0.0"
+                  }
+                },
+                {
+                  "value": "50.0",
+                  "argumentInfo": {
+                    "argumentName": "width",
+                    "formattedValue": "50.0"
+                  }
+                },
+                {
+                  "value": "50.0",
+                  "argumentInfo": {
+                    "argumentName": "height",
+                    "formattedValue": "50.0"
+                  }
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1067800
             },
             {
               "name": "i move the triangle by",
@@ -82,7 +358,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 1134000
+              "durationInNanos": 1206800
             },
             {
               "name": "the triangle should be at",
@@ -97,30 +373,30 @@
                 {
                   "value": "10.0",
                   "argumentInfo": {
-                    "argumentName": "expectedX",
+                    "argumentName": "x",
                     "formattedValue": "10.0"
                   }
                 },
                 {
                   "value": "20.0",
                   "argumentInfo": {
-                    "argumentName": "expectedY",
+                    "argumentName": "y",
                     "formattedValue": "20.0"
                   }
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 64815100
+              "durationInNanos": 678200
             }
           ],
           "explicitArguments": [],
           "derivedArguments": [],
           "status": "SUCCESS",
           "success": true,
-          "durationInNanos": 147526300
+          "durationInNanos": 4358800
         }
       ],
-      "durationInNanos": 147526300,
+      "durationInNanos": 4358800,
       "executionStatus": "SUCCESS"
     }
   ],
