@@ -79,26 +79,27 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
 
     @Override
     public Figure createPolyline(Point2D.Double[] points, Map<AttributeKey<?>, Object> a) {
-        SVGPathFigure figure = new SVGPathFigure();
-        figure.removeAllChildren();
-        SVGBezierFigure bf = new SVGBezierFigure();
-        for (int i = 0; i < points.length; i++) {
-            bf.addNode(new BezierPath.Node(points[i].x, points[i].y));
-        }
-        figure.add(bf);
-        figure.setAttributes(a);
-        return figure;
+        // false = Polyline
+        return createPolyFigureFromPoints(points, a, false);
     }
 
     @Override
     public Figure createPolygon(Point2D.Double[] points, Map<AttributeKey<?>, Object> a) {
+        // true = Polygon
+        return createPolyFigureFromPoints(points, a, true);
+    }
+
+
+    private Figure createPolyFigureFromPoints(Point2D.Double[] points,
+                                              Map<AttributeKey<?>, Object> a,
+                                              boolean isClosed) {
         SVGPathFigure figure = new SVGPathFigure();
         figure.removeAllChildren();
         SVGBezierFigure bf = new SVGBezierFigure();
-        for (int i = 0; i < points.length; i++) {
-            bf.addNode(new BezierPath.Node(points[i].x, points[i].y));
+        for (Point2D.Double point : points) {
+            bf.addNode(new BezierPath.Node(point.x, point.y));
         }
-        bf.setClosed(true);
+        bf.setClosed(isClosed);
         figure.add(bf);
         figure.setAttributes(a);
         return figure;
