@@ -72,14 +72,10 @@ public class ToolsToolBar extends AbstractToolBar {
                 ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
                 GridBagLayout layout = new GridBagLayout();
                 p.setLayout(layout);
+
                 GridBagConstraints gbc;
                 AbstractButton btn;
-                CreationTool creationTool;
-                PathTool pathTool;
-                TextCreationTool textTool;
-                TextAreaCreationTool textAreaTool;
-                SVGCreateFromFileTool imageTool;
-                HashMap<AttributeKey<?>, Object> attributes;
+
                 btn = ButtonFactory.addSelectionToolTo(this, editor,
                         ButtonFactory.createDrawingActions(editor, disposables),
                         createSelectionActions(editor));
@@ -90,86 +86,116 @@ public class ToolsToolBar extends AbstractToolBar {
                 gbc.gridy = 0;
                 p.add(btn, gbc);
                 labels.configureToolBarButton(btn, "selectionTool");
-                attributes = new HashMap<AttributeKey<?>, Object>();
-                btn = ButtonFactory.addToolTo(this, editor, creationTool = new CreationTool(new SVGRectFigure(), attributes), "createRectangle", labels);
-                creationTool.setToolDoneAfterCreation(false);
-                btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                gbc = new GridBagConstraints();
-                gbc.gridx = 0;
-                gbc.gridy = 1;
-                gbc.insets = new Insets(3, 0, 0, 0);
-                p.add(btn, gbc);
-                btn = ButtonFactory.addToolTo(this, editor, creationTool = new CreationTool(new SVGEllipseFigure(), attributes), "createEllipse", labels);
-                creationTool.setToolDoneAfterCreation(false);
-                btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                gbc = new GridBagConstraints();
-                gbc.gridx = 1;
-                gbc.gridy = 1;
-                gbc.insets = new Insets(3, 3, 0, 0);
-                p.add(btn, gbc);
-                btn = ButtonFactory.addToolTo(this, editor, pathTool = new PathTool(new SVGPathFigure(), new SVGBezierFigure(true), attributes), "createPolygon", labels);
-                pathTool.setToolDoneAfterCreation(false);
-                btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                gbc = new GridBagConstraints();
-                gbc.gridx = 2;
-                gbc.gridy = 1;
-                gbc.insets = new Insets(3, 3, 0, 0);
-                p.add(btn, gbc);
-                attributes = new HashMap<AttributeKey<?>, Object>();
-                attributes.put(AttributeKeys.FILL_COLOR, null);
-                attributes.put(PATH_CLOSED, false);
-                btn = ButtonFactory.addToolTo(this, editor, creationTool = new CreationTool(new SVGPathFigure(), attributes), "createLine", labels);
-                creationTool.setToolDoneAfterCreation(false);
-                btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                gbc = new GridBagConstraints();
-                gbc.gridx = 1;
-                gbc.gridy = 0;
-                gbc.insets = new Insets(0, 3, 0, 0);
-                p.add(btn, gbc);
-                btn = ButtonFactory.addToolTo(this, editor, pathTool = new PathTool(new SVGPathFigure(), new SVGBezierFigure(false), attributes), "createScribble", labels);
-                pathTool.setToolDoneAfterCreation(false);
-                btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                gbc = new GridBagConstraints();
-                gbc.gridx = 2;
-                gbc.gridy = 0;
-                gbc.insets = new Insets(0, 3, 0, 0);
-                p.add(btn, gbc);
-                attributes = new HashMap<AttributeKey<?>, Object>();
-                attributes.put(AttributeKeys.FILL_COLOR, Color.black);
-                attributes.put(AttributeKeys.STROKE_COLOR, null);
-                btn = ButtonFactory.addToolTo(this, editor, textTool = new TextCreationTool(new SVGTextFigure(), attributes), "createText", labels);
-                textTool.setToolDoneAfterCreation(true);
-                btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                gbc = new GridBagConstraints();
-                gbc.gridx = 0;
-                gbc.gridy = 2;
-                gbc.insets = new Insets(3, 0, 0, 0);
-                p.add(btn, gbc);
-                textAreaTool = new TextAreaCreationTool(new SVGTextAreaFigure(), attributes);
-                textAreaTool.setRubberbandColor(Color.BLACK);
-                textAreaTool.setToolDoneAfterCreation(true);
-                btn = ButtonFactory.addToolTo(this, editor, textAreaTool, "createTextArea", labels);
-                btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                gbc = new GridBagConstraints();
-                gbc.gridx = 1;
-                gbc.gridy = 2;
-                gbc.insets = new Insets(3, 3, 0, 0);
-                p.add(btn, gbc);
-                attributes = new HashMap<AttributeKey<?>, Object>();
-                attributes.put(AttributeKeys.FILL_COLOR, null);
-                attributes.put(AttributeKeys.STROKE_COLOR, null);
-                btn = ButtonFactory.addToolTo(this, editor, imageTool = new SVGCreateFromFileTool(new SVGImageFigure(), new SVGGroupFigure(), attributes), "createImage", labels);
-                imageTool.setToolDoneAfterCreation(true);
-                imageTool.setUseFileDialog(true);
-                btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
-                gbc = new GridBagConstraints();
-                gbc.gridx = 2;
-                gbc.gridy = 2;
-                gbc.insets = new Insets(3, 3, 0, 0);
-                p.add(btn, gbc);
-            break;
+
+                addCreationButtons(labels, p, editor);
+                break;
         }
         return p;
+    }
+
+
+    private void addCreationButtons(ResourceBundleUtil labels, JPanel p, DrawingEditor editor) {
+        GridBagConstraints gbc;
+        AbstractButton btn;
+        CreationTool creationTool;
+        PathTool pathTool;
+        TextCreationTool textTool;
+        TextAreaCreationTool textAreaTool;
+        SVGCreateFromFileTool imageTool;
+        HashMap<AttributeKey<?>, Object> attributes;
+
+        // Rectangle
+        attributes = new HashMap<AttributeKey<?>, Object>();
+        btn = ButtonFactory.addToolTo(this, editor, creationTool = new CreationTool(new SVGRectFigure(), attributes), "createRectangle", labels);
+        creationTool.setToolDoneAfterCreation(false);
+        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.insets = new Insets(3, 0, 0, 0);
+        p.add(btn, gbc);
+
+        // Ellipse
+        btn = ButtonFactory.addToolTo(this, editor, creationTool = new CreationTool(new SVGEllipseFigure(), attributes), "createEllipse", labels);
+        creationTool.setToolDoneAfterCreation(false);
+        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.insets = new Insets(3, 3, 0, 0);
+        p.add(btn, gbc);
+
+        // Polygon
+        btn = ButtonFactory.addToolTo(this, editor, pathTool = new PathTool(new SVGPathFigure(), new SVGBezierFigure(true), attributes), "createPolygon", labels);
+        pathTool.setToolDoneAfterCreation(false);
+        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        gbc.insets = new Insets(3, 3, 0, 0);
+        p.add(btn, gbc);
+
+        // Line
+        attributes = new HashMap<AttributeKey<?>, Object>();
+        attributes.put(AttributeKeys.FILL_COLOR, null);
+        attributes.put(PATH_CLOSED, false);
+        btn = ButtonFactory.addToolTo(this, editor, creationTool = new CreationTool(new SVGPathFigure(), attributes), "createLine", labels);
+        creationTool.setToolDoneAfterCreation(false);
+        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(0, 3, 0, 0);
+        p.add(btn, gbc);
+
+        // Scribble
+        btn = ButtonFactory.addToolTo(this, editor, pathTool = new PathTool(new SVGPathFigure(), new SVGBezierFigure(false), attributes), "createScribble", labels);
+        pathTool.setToolDoneAfterCreation(false);
+        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(0, 3, 0, 0);
+        p.add(btn, gbc);
+
+        // Text
+        attributes = new HashMap<AttributeKey<?>, Object>();
+        attributes.put(AttributeKeys.FILL_COLOR, Color.black);
+        attributes.put(AttributeKeys.STROKE_COLOR, null);
+        btn = ButtonFactory.addToolTo(this, editor, textTool = new TextCreationTool(new SVGTextFigure(), attributes), "createText", labels);
+        textTool.setToolDoneAfterCreation(true);
+        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.insets = new Insets(3, 0, 0, 0);
+        p.add(btn, gbc);
+
+        // TextArea
+        textAreaTool = new TextAreaCreationTool(new SVGTextAreaFigure(), attributes);
+        textAreaTool.setRubberbandColor(Color.BLACK);
+        textAreaTool.setToolDoneAfterCreation(true);
+        btn = ButtonFactory.addToolTo(this, editor, textAreaTool, "createTextArea", labels);
+        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.insets = new Insets(3, 3, 0, 0);
+        p.add(btn, gbc);
+
+        // Image
+        attributes = new HashMap<AttributeKey<?>, Object>();
+        attributes.put(AttributeKeys.FILL_COLOR, null);
+        attributes.put(AttributeKeys.STROKE_COLOR, null);
+        btn = ButtonFactory.addToolTo(this, editor, imageTool = new SVGCreateFromFileTool(new SVGImageFigure(), new SVGGroupFigure(), attributes), "createImage", labels);
+        imageTool.setToolDoneAfterCreation(true);
+        imageTool.setUseFileDialog(true);
+        btn.setUI((PaletteButtonUI) PaletteButtonUI.createUI(btn));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        gbc.insets = new Insets(3, 3, 0, 0);
+        p.add(btn, gbc);
     }
 
     public Collection<Action> createSelectionActions(DrawingEditor editor) {
