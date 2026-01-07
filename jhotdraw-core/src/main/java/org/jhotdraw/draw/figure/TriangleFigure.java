@@ -141,43 +141,71 @@ public class TriangleFigure extends AbstractAttributedFigure {
                 createNorthTriangle(triangle, r);
                 break;
             case NORTH_EAST:
-                triangle.moveTo((float) (r.x), (float) r.y);
-                triangle.lineTo((float) (r.x + r.width), (float) (r.y));
-                triangle.lineTo((float) (r.x + r.width), (float) (r.y + r.height));
+                createNorthEastTriangle(triangle, r);
                 break;
             case EAST:
-                triangle.moveTo((float) (r.x), (float) (r.y));
-                triangle.lineTo((float) (r.x + r.width), (float) (r.y + r.height / 2d));
-                triangle.lineTo((float) r.x, (float) (r.y + r.height));
+                createEastTriangle(triangle, r);
                 break;
             case SOUTH_EAST:
-                triangle.moveTo((float) (r.x + r.width), (float) (r.y));
-                triangle.lineTo((float) (r.x + r.width), (float) (r.y + r.height));
-                triangle.lineTo((float) (r.x), (float) (r.y + r.height));
+                createSouthEastTriangle(triangle, r);
                 break;
             case SOUTH:
-                triangle.moveTo((float) (r.x + r.width / 2), (float) (r.y + r.height));
-                triangle.lineTo((float) r.x, (float) r.y);
-                triangle.lineTo((float) (r.x + r.width), (float) r.y);
+                createSouthTriangle(triangle, r);
                 break;
             case SOUTH_WEST:
-                triangle.moveTo((float) (r.x + r.width), (float) (r.y + r.height));
-                triangle.lineTo((float) (r.x), (float) (r.y + r.height));
-                triangle.lineTo((float) (r.x), (float) (r.y));
+                createSouthWestTriangle(triangle, r);
                 break;
             case WEST:
-                triangle.moveTo((float) (r.x), (float) (r.y + r.height / 2));
-                triangle.lineTo((float) (r.x + r.width), (float) (r.y));
-                triangle.lineTo((float) (r.x + r.width), (float) (r.y + r.height));
+                createWestTriangle(triangle, r);
                 break;
             case NORTH_WEST:
-                triangle.moveTo((float) (r.x), (float) (r.y + r.height));
-                triangle.lineTo((float) (r.x), (float) (r.y));
-                triangle.lineTo((float) (r.x + r.width), (float) (r.y));
+                createNorthWestTriangle(triangle, r);
                 break;
         }
         triangle.setClosed(true);
         return triangle;
+    }
+
+    private static void createNorthWestTriangle(BezierPath triangle, Rectangle2D.Double r) {
+        triangle.moveTo((float) (r.x), (float) (r.y + r.height));
+        triangle.lineTo((float) (r.x), (float) (r.y));
+        triangle.lineTo((float) (r.x + r.width), (float) (r.y));
+    }
+
+    private static void createWestTriangle(BezierPath triangle, Rectangle2D.Double r) {
+        triangle.moveTo((float) (r.x), (float) (r.y + r.height / 2));
+        triangle.lineTo((float) (r.x + r.width), (float) (r.y));
+        triangle.lineTo((float) (r.x + r.width), (float) (r.y + r.height));
+    }
+
+    private static void createSouthWestTriangle(BezierPath triangle, Rectangle2D.Double r) {
+        triangle.moveTo((float) (r.x + r.width), (float) (r.y + r.height));
+        triangle.lineTo((float) (r.x), (float) (r.y + r.height));
+        triangle.lineTo((float) (r.x), (float) (r.y));
+    }
+
+    private static void createSouthTriangle(BezierPath triangle, Rectangle2D.Double r) {
+        triangle.moveTo((float) (r.x + r.width / 2), (float) (r.y + r.height));
+        triangle.lineTo((float) r.x, (float) r.y);
+        triangle.lineTo((float) (r.x + r.width), (float) r.y);
+    }
+
+    private static void createSouthEastTriangle(BezierPath triangle, Rectangle2D.Double r) {
+        triangle.moveTo((float) (r.x + r.width), (float) (r.y));
+        triangle.lineTo((float) (r.x + r.width), (float) (r.y + r.height));
+        triangle.lineTo((float) (r.x), (float) (r.y + r.height));
+    }
+
+    private static void createEastTriangle(BezierPath triangle, Rectangle2D.Double r) {
+        triangle.moveTo((float) (r.x), (float) (r.y));
+        triangle.lineTo((float) (r.x + r.width), (float) (r.y + r.height / 2d));
+        triangle.lineTo((float) r.x, (float) (r.y + r.height));
+    }
+
+    private static void createNorthEastTriangle(BezierPath triangle, Rectangle2D.Double r) {
+        triangle.moveTo((float) (r.x), (float) r.y);
+        triangle.lineTo((float) (r.x + r.width), (float) (r.y));
+        triangle.lineTo((float) (r.x + r.width), (float) (r.y + r.height));
     }
 
     private static void createNorthTriangle(BezierPath triangle, Rectangle2D.Double r) {
