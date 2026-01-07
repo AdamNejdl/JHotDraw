@@ -1,0 +1,128 @@
+{
+  "className": "org.jhotdraw.draw.dbb.TriangleFigureBDDTest",
+  "name": "Triangle Figure BDD",
+  "scenarios": [
+    {
+      "className": "org.jhotdraw.draw.dbb.TriangleFigureBDDTest",
+      "testMethodName": "a_triangle_can_be_moved_correctly",
+      "description": "a triangle can be moved correctly",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "casesAsTable": false,
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "a triangle at coordinates",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a triangle at coordinates"
+                },
+                {
+                  "value": "0.0",
+                  "argumentInfo": {
+                    "argumentName": "x",
+                    "formattedValue": "0.0"
+                  }
+                },
+                {
+                  "value": "0.0",
+                  "argumentInfo": {
+                    "argumentName": "y",
+                    "formattedValue": "0.0"
+                  }
+                },
+                {
+                  "value": "50.0",
+                  "argumentInfo": {
+                    "argumentName": "w",
+                    "formattedValue": "50.0"
+                  }
+                },
+                {
+                  "value": "50.0",
+                  "argumentInfo": {
+                    "argumentName": "h",
+                    "formattedValue": "50.0"
+                  }
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 58667100
+            },
+            {
+              "name": "i move the triangle by",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "i move the triangle by"
+                },
+                {
+                  "value": "10.0",
+                  "argumentInfo": {
+                    "argumentName": "dx",
+                    "formattedValue": "10.0"
+                  }
+                },
+                {
+                  "value": "20.0",
+                  "argumentInfo": {
+                    "argumentName": "dy",
+                    "formattedValue": "20.0"
+                  }
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1134000
+            },
+            {
+              "name": "the triangle should be at",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the triangle should be at"
+                },
+                {
+                  "value": "10.0",
+                  "argumentInfo": {
+                    "argumentName": "expectedX",
+                    "formattedValue": "10.0"
+                  }
+                },
+                {
+                  "value": "20.0",
+                  "argumentInfo": {
+                    "argumentName": "expectedY",
+                    "formattedValue": "20.0"
+                  }
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 64815100
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "success": true,
+          "durationInNanos": 147526300
+        }
+      ],
+      "durationInNanos": 147526300,
+      "executionStatus": "SUCCESS"
+    }
+  ],
+  "tagMap": {}
+}
