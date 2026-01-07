@@ -8,6 +8,7 @@
     </parent>
     <artifactId>jhotdraw-samples</artifactId>
     <packaging>pom</packaging>
+
     <modules>
         <module>jhotdraw-samples-mini</module>
         <module>jhotdraw-samples-misc</module>
