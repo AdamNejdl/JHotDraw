@@ -24,6 +24,9 @@ public class SVGConstants {
 
     public static final String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
     public static final String SVG_MIMETYPE = "image/svg+xml";
+
+    public static final String SVG_TRIANGLE_TAG = "triangle";
+
     public static final Map<String, Color> SVG_COLORS;
 
     static {

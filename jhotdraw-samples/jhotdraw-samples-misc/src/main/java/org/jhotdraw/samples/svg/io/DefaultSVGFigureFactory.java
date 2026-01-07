@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 import javax.swing.text.*;
 import org.jhotdraw.draw.*;
+import org.jhotdraw.draw.figure.TriangleFigure;
 import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.LinearGradient;
@@ -54,6 +55,14 @@ public class DefaultSVGFigureFactory implements SVGFigureFactory {
     @Override
     public Figure createCircle(double cx, double cy, double r, Map<AttributeKey<?>, Object> a) {
         return createEllipse(cx, cy, r, r, a);
+    }
+
+    @Override
+    public Figure createTriangle(double x, double y, double w, double h,
+                                 Map<AttributeKey<?>, Object> a) {
+        TriangleFigure figure = new TriangleFigure(x, y, w, h);
+        figure.setAttributes(a);
+        return figure;
     }
 
     @Override

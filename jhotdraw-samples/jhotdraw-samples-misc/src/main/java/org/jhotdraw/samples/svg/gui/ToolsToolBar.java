@@ -20,6 +20,7 @@ import static org.jhotdraw.draw.AttributeKeys.PATH_CLOSED;
 import org.jhotdraw.draw.DrawingEditor;
 import org.jhotdraw.draw.DrawingView;
 import org.jhotdraw.draw.action.*;
+import org.jhotdraw.draw.figure.TriangleFigure;
 import org.jhotdraw.draw.tool.CreationTool;
 import org.jhotdraw.draw.tool.TextAreaCreationTool;
 import org.jhotdraw.draw.tool.TextCreationTool;
@@ -124,6 +125,11 @@ public class ToolsToolBar extends AbstractToolBar {
         gbc.gridy = 1;
         gbc.insets = new Insets(3, 3, 0, 0);
         p.add(btn, gbc);
+
+        // Triangle
+        ButtonFactory.addToolTo(this, editor,
+                new CreationTool(new TriangleFigure(), attributes),
+                "createTriangle", labels);
 
         // Polygon
         btn = ButtonFactory.addToolTo(this, editor, pathTool = new PathTool(new SVGPathFigure(), new SVGBezierFigure(true), attributes), "createPolygon", labels);
