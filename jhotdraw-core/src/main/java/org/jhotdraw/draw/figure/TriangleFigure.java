@@ -138,9 +138,7 @@ public class TriangleFigure extends AbstractAttributedFigure {
         switch (get(ORIENTATION)) {
             case NORTH:
             default:
-                triangle.moveTo((float) (r.x + r.width / 2), (float) r.y);
-                triangle.lineTo((float) (r.x + r.width), (float) (r.y + r.height));
-                triangle.lineTo((float) r.x, (float) (r.y + r.height));
+                createNorthTriangle(triangle, r);
                 break;
             case NORTH_EAST:
                 triangle.moveTo((float) (r.x), (float) r.y);
@@ -180,6 +178,12 @@ public class TriangleFigure extends AbstractAttributedFigure {
         }
         triangle.setClosed(true);
         return triangle;
+    }
+
+    private static void createNorthTriangle(BezierPath triangle, Rectangle2D.Double r) {
+        triangle.moveTo((float) (r.x + r.width / 2), (float) r.y);
+        triangle.lineTo((float) (r.x + r.width), (float) (r.y + r.height));
+        triangle.lineTo((float) r.x, (float) (r.y + r.height));
     }
 
     /**
