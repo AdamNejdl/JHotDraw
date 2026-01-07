@@ -39,8 +39,18 @@ public interface SVGFigureFactory {
             double cx, double cy, double r,
             Map<AttributeKey<?>, Object> attributes);
 
+    /**
+     * Creates a Triangle figure with the specified bounds and attributes.
+     *
+     * @param x The x-coordinate of the top-left corner of the bounding box.
+     * @param y The y-coordinate of the top-left corner of the bounding box.
+     * @param width The width of the bounding box.
+     * @param height The height of the bounding box.
+     * @param attributes The attributes to apply.
+     * @return A new TriangleFigure instance.
+     */
     Figure createTriangle(double x, double y, double width, double height,
-                          Map<AttributeKey<?>, Object> a);
+                          Map<AttributeKey<?>, Object> attributes);
 
     public Figure createEllipse(
             double cx, double cy, double rx, double ry,
