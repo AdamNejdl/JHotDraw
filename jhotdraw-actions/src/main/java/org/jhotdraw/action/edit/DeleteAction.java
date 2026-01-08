@@ -9,7 +9,6 @@ package org.jhotdraw.action.edit;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JComponent;
 import javax.swing.text.*;
@@ -64,7 +63,7 @@ public class DeleteAction extends TextAction {
     /**
      * This variable keeps a strong reference on the property change listener.
      */
-    private PropertyChangeListener propertyHandler;
+    private transient PropertyChangeListener propertyHandler;
 
     /**
      * Creates a new instance which acts on the currently focused component.
@@ -94,14 +93,12 @@ public class DeleteAction extends TextAction {
         this.target = target;
         if (target != null) {
             // Register with a weak reference on the JComponent.
-            propertyHandler = new PropertyChangeListener() {
-                @Override
-                public void propertyChange(PropertyChangeEvent evt) {
-                    if ("enabled".equals(evt.getPropertyName())) {
-                        setEnabled((Boolean) evt.getNewValue());
-                    }
+            propertyHandler = evt -> {
+                if ("enabled".equals(evt.getPropertyName())) {
+                    setEnabled((Boolean) evt.getNewValue());
                 }
             };
+
             target.addPropertyChangeListener(new WeakPropertyChangeListener(propertyHandler));
         }
         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.action.Labels");
@@ -110,15 +107,15 @@ public class DeleteAction extends TextAction {
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        JComponent c = target;
-        if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
+        JComponent component = target;
+        if (component == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
                 getPermanentFocusOwner() instanceof JComponent)) {
-            c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
+            component = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
                     getPermanentFocusOwner();
         }
-        if (c != null && c.isEnabled()) {
-            if (c instanceof EditableComponent) {
-                ((EditableComponent) c).delete();
+        if (component != null && component.isEnabled()) {
+            if (component instanceof EditableComponent) {
+                ((EditableComponent) component).delete();
             } else {
                 deleteNextChar(evt);
             }
@@ -130,26 +127,26 @@ public class DeleteAction extends TextAction {
      * DefaultEditorKit.DeleteNextCharAction.actionPerformed(ActionEvent).
      */
     public void deleteNextChar(ActionEvent e) {
-        JTextComponent c = getTextComponent(e);
-        boolean beep = true;
-        if ((c != null) && (c.isEditable())) {
+        JTextComponent textComponent = getTextComponent(e);
+        boolean noDeletion = true;
+        if ((textComponent != null) && (textComponent.isEditable())) {
             try {
-                javax.swing.text.Document doc = c.getDocument();
-                Caret caret = c.getCaret();
+                javax.swing.text.Document doc = textComponent.getDocument();
+                Caret caret = textComponent.getCaret();
                 int dot = caret.getDot();
                 int mark = caret.getMark();
                 if (dot != mark) {
                     doc.remove(Math.min(dot, mark), Math.abs(dot - mark));
-                    beep = false;
+                    noDeletion = false;
                 } else if (dot < doc.getLength()) {
                     doc.remove(dot, 1);
-                    beep = false;
+                    noDeletion = false;
                 }
             } catch (BadLocationException bl) {
                 // allowed empty
             }
         }
-        if (beep) {
+        if (noDeletion) {
             Toolkit.getDefaultToolkit().beep();
         }
     }

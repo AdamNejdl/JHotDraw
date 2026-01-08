@@ -56,15 +56,15 @@ public class CutAction extends AbstractSelectionAction {
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        JComponent c = target;
-        if (c == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
+        JComponent component = target;
+        if (component == null && (KeyboardFocusManager.getCurrentKeyboardFocusManager().
                 getPermanentFocusOwner() instanceof JComponent)) {
-            c = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
+            component = (JComponent) KeyboardFocusManager.getCurrentKeyboardFocusManager().
                     getPermanentFocusOwner();
         }
-        if (c != null && c.isEnabled()) {
-            c.getTransferHandler().exportToClipboard(
-                    c,
+        if (component != null && component.isEnabled()) {
+            component.getTransferHandler().exportToClipboard(
+                    component,
                     ClipboardUtil.getClipboard(),
                     TransferHandler.MOVE);
         }
