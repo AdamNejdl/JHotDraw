@@ -41,10 +41,15 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
         implements TextHolderFigure {
 
     private static final long serialVersionUID = 1L;
+
+    private static final int TEXT_COLUMNS = 4;
+    private static final int TAB_SIZE = 8;
+    private static final double ANTIALIAS_PADDING = 2d;
+
     protected Point2D.Double origin = new Point2D.Double();
     protected boolean editable = true;
     // cache of the TextFigure's layout
-    transient protected TextLayout textLayout;
+    protected transient TextLayout textLayout;
 
     /**
      * Creates a new instance.
@@ -60,39 +65,43 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
 
     // DRAWING
     @Override
-    protected void drawStroke(java.awt.Graphics2D g) {
+    protected void drawStroke(java.awt.Graphics2D graphics2D) {
+        // No stroke drawing required for text
     }
 
     @Override
-    protected void drawFill(java.awt.Graphics2D g) {
+    protected void drawFill(java.awt.Graphics2D graphics2D) {
+        // No fill drawing required for text
     }
 
     @Override
-    protected void drawText(java.awt.Graphics2D g) {
-        if (getText() != null || isEditable()) {
-            TextLayout layout = getTextLayout();
-            Graphics2D g2 = (Graphics2D) g.create();
-            try {
-                //Test if world to screen transformation mirrors the text. If so it tries to
-                //unmirror it.
-                if (g2.getTransform().getScaleY() * g2.getTransform().getScaleX() < 0) {
-                    AffineTransform at = new AffineTransform();
-                    at.translate(0, origin.y + layout.getAscent() / 2);
-                    at.scale(1, -1);
-                    at.translate(0, -origin.y - layout.getAscent() / 2);
-                    g2.transform(at);
-                }
-                layout.draw(g2, (float) origin.x, (float) (origin.y + layout.getAscent()));
-            } finally {
-                g2.dispose();
-            }
+    protected void drawText(Graphics2D graphics2D) {
+        if (getText() == null && !isEditable()) return;
+
+        TextLayout layout = getTextLayout();
+        Graphics2D graphicsTransformed = (Graphics2D) graphics2D.create();
+        try {
+            applyMirroringIfNeeded(graphicsTransformed, layout);
+            layout.draw(graphicsTransformed, (float) origin.x, (float) (origin.y + layout.getAscent()));
+        } finally {
+            graphicsTransformed.dispose();
+        }
+    }
+
+    private void applyMirroringIfNeeded(Graphics2D graphicsTransformed, TextLayout layout) {
+        if (graphicsTransformed.getTransform().getScaleX() * graphicsTransformed.getTransform().getScaleY() < 0) {
+            AffineTransform affineTransform = new AffineTransform();
+            affineTransform.translate(0, origin.y + layout.getAscent() / 2);
+            affineTransform.scale(1, -1);
+            affineTransform.translate(0, -origin.y - layout.getAscent() / 2);
+            graphicsTransformed.transform(affineTransform);
         }
     }
 
     // SHAPE AND BOUNDS
     @Override
-    public void transform(AffineTransform tx) {
-        tx.transform(origin, origin);
+    public void transform(AffineTransform affineTransform) {
+        affineTransform.transform(origin, origin);
     }
 
     @Override
@@ -101,26 +110,23 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     }
 
     @Override
-    public boolean figureContains(Point2D.Double p) {
-        if (getBounds().contains(p)) {
-            return true;
-        }
-        return false;
+    public boolean figureContains(Point2D.Double point) {
+        return getBounds().contains(point);
     }
 
     protected TextLayout getTextLayout() {
         if (textLayout == null) {
             String text = getText();
-            if (text == null || text.length() == 0) {
+            if (text == null || text.isEmpty()) {
                 text = " ";
             }
-            FontRenderContext frc = getFontRenderContext();
+            FontRenderContext fontRenderContext = getFontRenderContext();
             HashMap<TextAttribute, Object> textAttributes = new HashMap<>();
             textAttributes.put(TextAttribute.FONT, getFont());
-            if (get(FONT_UNDERLINE)) {
+            if (Boolean.TRUE.equals(get(FONT_UNDERLINE))) {
                 textAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
             }
-            textLayout = new TextLayout(text, textAttributes, frc);
+            textLayout = new TextLayout(text, textAttributes, fontRenderContext);
         }
         return textLayout;
     }
@@ -128,9 +134,8 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
     @Override
     public Rectangle2D.Double getBounds() {
         TextLayout layout = getTextLayout();
-        Rectangle2D.Double r = new Rectangle2D.Double(origin.x, origin.y, layout.getAdvance(),
+        return new Rectangle2D.Double(origin.x, origin.y, layout.getAdvance(),
                 layout.getAscent() + layout.getDescent());
-        return r;
     }
 
     @Override
@@ -141,8 +146,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
 
     @Override
     public double getBaseline() {
-        TextLayout layout = getTextLayout();
-        return origin.y + layout.getAscent() - getBounds().y;
+        return origin.y + getTextLayout().getAscent() - getBounds().y;
     }
 
     /**
@@ -150,31 +154,28 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
      */
     @Override
     protected Rectangle2D.Double getFigureDrawingArea() {
-        if (getText() == null) {
-            return getBounds();
-        } else {
-            TextLayout layout = getTextLayout();
-            Rectangle2D.Double r = new Rectangle2D.Double(
-                    origin.x, origin.y, layout.getAdvance(), layout.getAscent());
-            Rectangle2D lBounds = layout.getBounds();
-            if (!lBounds.isEmpty() && !Double.isNaN(lBounds.getX())) {
-                r.add(new Rectangle2D.Double(
-                        lBounds.getX() + origin.x,
-                        (lBounds.getY() + origin.y + layout.getAscent()),
-                        lBounds.getWidth(),
-                        lBounds.getHeight()));
-            }
-            // grow by two pixels to take antialiasing into account
-            Geom.grow(r, 2d, 2d);
-            return r;
+        Rectangle2D.Double rectangle = new Rectangle2D.Double(origin.x, origin.y, 0, 0);
+        TextLayout layout = getTextLayout();
+
+        rectangle.setRect(origin.x, origin.y, layout.getAdvance(), layout.getAscent());
+        Rectangle2D lBounds = layout.getBounds();
+        if (!lBounds.isEmpty() && !Double.isNaN(lBounds.getX())) {
+            rectangle.add(new Rectangle2D.Double(
+                    lBounds.getX() + origin.x,
+                    lBounds.getY() + origin.y + layout.getAscent(),
+                    lBounds.getWidth(),
+                    lBounds.getHeight()
+            ));
         }
+        Geom.grow(rectangle, ANTIALIAS_PADDING, ANTIALIAS_PADDING);
+        return rectangle;
     }
 
     @Override
     public void restoreTransformTo(Object geometry) {
-        Point2D.Double p = (Point2D.Double) geometry;
-        origin.x = p.x;
-        origin.y = p.y;
+        Point2D.Double point = (Point2D.Double) geometry;
+        origin.x = point.x;
+        origin.y = point.y;
     }
 
     @Override
@@ -202,8 +203,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
 
     @Override
     public int getTextColumns() {
-        //return (getText() == null) ? 4 : Math.max(getText().length(), 4);
-        return 4;
+        return TEXT_COLUMNS;
     }
 
     /**
@@ -211,7 +211,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
      */
     @Override
     public int getTabSize() {
-        return 8;
+        return TAB_SIZE;
     }
 
     @Override
@@ -241,7 +241,7 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
 
     @Override
     public void setFontSize(float size) {
-        set(FONT_SIZE, new Double(size));
+        set(FONT_SIZE, (double) size);
     }
 
     @Override
@@ -255,25 +255,23 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
         return editable;
     }
 
-    public void setEditable(boolean b) {
-        this.editable = b;
+    public void setEditable(boolean editable) {
+        this.editable = editable;
     }
 
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<>();
-        switch (detailLevel) {
-            case -1:
-                handles.add(new BoundsOutlineHandle(this, false, true));
-                break;
-            case 0:
-                handles.add(new BoundsOutlineHandle(this));
-                handles.add(new MoveHandle(this, RelativeLocator.northWest()));
-                handles.add(new MoveHandle(this, RelativeLocator.northEast()));
-                handles.add(new MoveHandle(this, RelativeLocator.southWest()));
-                handles.add(new MoveHandle(this, RelativeLocator.southEast()));
-                handles.add(new FontSizeHandle(this));
-                break;
+
+        if (detailLevel == -1) {
+            handles.add(new BoundsOutlineHandle(this, false, true));
+        } else if (detailLevel == 0) {
+            handles.add(new BoundsOutlineHandle(this));
+            handles.add(new MoveHandle(this, RelativeLocator.northWest()));
+            handles.add(new MoveHandle(this, RelativeLocator.northEast()));
+            handles.add(new MoveHandle(this, RelativeLocator.southWest()));
+            handles.add(new MoveHandle(this, RelativeLocator.southEast()));
+            handles.add(new FontSizeHandle(this));
         }
         return handles;
     }
@@ -284,10 +282,9 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
      * Returns null, if no specialized tool is available.
      */
     @Override
-    public Tool getTool(Point2D.Double p) {
-        if (isEditable() && contains(p)) {
-            TextEditingTool t = new TextEditingTool(this);
-            return t;
+    public Tool getTool(Point2D.Double coordinate) {
+        if (isEditable() && contains(coordinate)) {
+            return new TextEditingTool(this);
         }
         return null;
     }
@@ -320,9 +317,9 @@ public class TextFigure extends AbstractAttributedDecoratedFigure
 
     @Override
     public void write(DOMOutput out) throws IOException {
-        Rectangle2D.Double b = getBounds();
-        out.addAttribute("x", b.x);
-        out.addAttribute("y", b.y);
+        Rectangle2D.Double bounds = getBounds();
+        out.addAttribute("x", bounds.x);
+        out.addAttribute("y", bounds.y);
         writeAttributes(out);
         writeDecorator(out);
     }

@@ -79,12 +79,15 @@ public class FloatingTextField {
         updateWidget();
     }
 
-    protected void updateWidget() {
+    private void updateFontAndColors() {
         Font font = editedFigure.getFont();
         font = font.deriveFont(font.getStyle(), (float) (editedFigure.getFontSize() * view.getScaleFactor()));
         textField.setFont(font);
         textField.setForeground(editedFigure.getTextColor());
         textField.setBackground(editedFigure.getFillColor());
+    }
+
+    private Rectangle calculateTextFieldBounds() {
         Rectangle2D.Double fDrawBounds = editedFigure.getBounds();
         Point2D.Double fDrawLoc = new Point2D.Double(fDrawBounds.getX(), fDrawBounds.getY());
         if (editedFigure.get(TRANSFORM) != null) {
@@ -96,14 +99,19 @@ public class FloatingTextField {
         fViewBounds.y = fViewLoc.y;
         Dimension tfDim = textField.getPreferredSize();
         Insets tfInsets = textField.getInsets();
-        float fontBaseline = textField.getGraphics().getFontMetrics(font).getMaxAscent();
+        float fontBaseline = textField.getGraphics().getFontMetrics(textField.getFont()).getMaxAscent();
         double fBaseline = editedFigure.getBaseline() * view.getScaleFactor();
-        textField.setBounds(
+        return new Rectangle(
                 fViewBounds.x - tfInsets.left,
-                fViewBounds.y - tfInsets.top - (int) (fontBaseline - fBaseline),
+                fViewBounds.y - tfInsets.top - (int)(fontBaseline - fBaseline),
                 Math.max(fViewBounds.width + tfInsets.left + tfInsets.right, tfDim.width),
                 Math.max(fViewBounds.height + tfInsets.top + tfInsets.bottom, tfDim.height)
         );
+    }
+
+    protected void updateWidget() {
+        updateFontAndColors();
+        textField.setBounds(calculateTextFieldBounds());
     }
 
     public Insets getInsets() {
@@ -155,4 +163,9 @@ public class FloatingTextField {
             editedFigure = null;
         }
     }
+
+    public void setText(String text) {
+        textField.setText(text);
+    }
+
 }

@@ -18,15 +18,14 @@ import org.jhotdraw.draw.tool.Tool;
  * A LabelFigure can be used to provide more double clickable area for a
  * TextHolderFigure.
  *
- * FIXME - Move FigureListener into inner class.
- *
  * @author Werner Randelshofer
  * @version $Id$
  */
-public class LabelFigure extends TextFigure implements FigureListener {
+public class LabelFigure extends TextFigure {
 
     private static final long serialVersionUID = 1L;
     private TextHolderFigure target;
+    private final transient TargetFigureListener targetListener;
 
     /**
      * Creates a new instance.
@@ -38,15 +37,16 @@ public class LabelFigure extends TextFigure implements FigureListener {
     public LabelFigure(String text) {
         setText(text);
         setEditable(false);
+        targetListener = new TargetFigureListener();
     }
 
     public void setLabelFor(TextHolderFigure target) {
         if (this.target != null) {
-            this.target.removeFigureListener(this);
+            this.target.removeFigureListener(targetListener);
         }
         this.target = target;
         if (this.target != null) {
-            this.target.addFigureListener(this);
+            this.target.addFigureListener(targetListener);
         }
     }
 
@@ -57,40 +57,11 @@ public class LabelFigure extends TextFigure implements FigureListener {
 
     /**
      * Returns a specialized tool for the given coordinate.
-     * <p>
-     * Returns null, if no specialized tool is available.
+     * Returns null if no specialized tool is available.
      */
     @Override
-    public Tool getTool(Point2D.Double p) {
-        return (target != null && contains(p)) ? new TextEditingTool(target) : null;
-    }
-
-    @Override
-    public void areaInvalidated(FigureEvent e) {
-    }
-
-    @Override
-    public void attributeChanged(FigureEvent e) {
-    }
-
-    @Override
-    public void figureAdded(FigureEvent e) {
-    }
-
-    @Override
-    public void figureChanged(FigureEvent e) {
-    }
-
-    @Override
-    public void figureRemoved(FigureEvent e) {
-        if (e.getFigure() == target) {
-            target.removeFigureListener(this);
-            target = null;
-        }
-    }
-
-    @Override
-    public void figureRequestRemove(FigureEvent e) {
+    public Tool getTool(Point2D.Double coordinate) {
+        return (target != null && contains(coordinate)) ? new TextEditingTool(target) : null;
     }
 
     @Override
@@ -99,14 +70,56 @@ public class LabelFigure extends TextFigure implements FigureListener {
         if (target != null) {
             Figure newTarget = oldToNew.get(target);
             if (newTarget != null) {
-                target.removeFigureListener(this);
+                target.removeFigureListener(targetListener);
                 target = (TextHolderFigure) newTarget;
-                newTarget.addFigureListener(this);
+                newTarget.addFigureListener(targetListener);
             }
         }
     }
 
-    @Override
-    public void figureHandlesChanged(FigureEvent e) {
+    /**
+     * Inner class to handle FigureListener events for the target figure.
+     * Encapsulates listener logic so LabelFigure itself does not implement
+     * all empty FigureListener methods.
+     */
+    private class TargetFigureListener implements FigureListener {
+
+        @Override
+        public void areaInvalidated(FigureEvent e) {
+            // No action needed for LabelFigure
+        }
+
+        @Override
+        public void attributeChanged(FigureEvent e) {
+            // No action needed for LabelFigure
+        }
+
+        @Override
+        public void figureHandlesChanged(FigureEvent e) {
+            // No action needed for LabelFigure
+        }
+
+        @Override
+        public void figureChanged(FigureEvent e) {
+            // No action needed for LabelFigure
+        }
+
+        @Override
+        public void figureAdded(FigureEvent e) {
+            // No action needed for LabelFigure
+        }
+
+        @Override
+        public void figureRemoved(FigureEvent e) {
+            if (e.getFigure() == target) {
+                target.removeFigureListener(this);
+                target = null;
+            }
+        }
+
+        @Override
+        public void figureRequestRemove(FigureEvent e) {
+            // No action needed for LabelFigure
+        }
     }
 }
